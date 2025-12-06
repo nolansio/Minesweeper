@@ -1,0 +1,6 @@
+name: minesweeper
+version: '1.0-SNAPSHOT'
+main: com.example.minesweeper.Main
+api-version: '1.21'
+authors: [ narsac ]
+description: A Minesweeper plugin
