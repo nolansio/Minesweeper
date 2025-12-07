@@ -33,4 +33,12 @@ public final class Minesweeper extends JavaPlugin {
         return plugin;
     }
 
+    public static World getMainWorld() {
+        return plugin.getServer().getWorld("world");
+    }
+
+    public static World getMinesweeperWorld() {
+        return plugin.getServer().getWorld("world_minesweeper");
+    }
+
 }
