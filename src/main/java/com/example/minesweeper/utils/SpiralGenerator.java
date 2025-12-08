@@ -38,4 +38,5 @@ public class SpiralGenerator {
 
         return new int[]{x, z};
     }
+
 }

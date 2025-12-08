@@ -1,9 +1,10 @@
 package com.example.minesweeper.listeners;
 
 import com.example.minesweeper.Minesweeper;
+import com.example.minesweeper.utils.PlatformLoader;
 import com.example.minesweeper.utils.SpiralGenerator;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,19 +19,36 @@ public class MainListener implements Listener {
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
+        World MinesweeperWorld = Minesweeper.getMinesweeperWorld();
 
-        if (player.getWorld() != Minesweeper.getMinesweeperWorld()) {
-            return;
+        // Quand le joueur rejoint le monde Minesweeper
+        if (player.getWorld() == MinesweeperWorld) {
+            int[] chunkPosition = getFreeChunkPosition();
+            if (chunkPosition == null) {
+                player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
+                player.sendMessage(Component.text("<red>There are no more places available, please try again later</red>"));
+                return;
+            }
+
+            occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getName()));
         }
 
-        int[] chunkPosition = getFreeChunkPosition();
-        if (chunkPosition == null) {
-            player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
-            player.sendMessage(Component.text("<red>There are no more places available, please try again later</red>"));
-            return;
-        }
+        // Quand le joueur quitte le monde Minesweeper
+        if (event.getFrom() == MinesweeperWorld) {
+            ChunkInfo target = null;
 
-        occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getName()));
+            for (ChunkInfo chunkInfo : occupiedChunks) {
+                if (chunkInfo.playerName.equals(player.getName())) {
+                    target = chunkInfo;
+                    break;
+                }
+            }
+
+            if (target != null) {
+                occupiedChunks.remove(target);
+                PlatformLoader.resetPlatform(MinesweeperWorld, target.x, target.z);
+            }
+        }
     }
 
     private int[] getFreeChunkPosition() {
