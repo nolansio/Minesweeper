@@ -1,6 +1,6 @@
 package com.example.minesweeper;
 
-import com.example.minesweeper.utils.PlatformLoader;
+import com.example.minesweeper.listeners.*;
 import com.example.minesweeper.utils.WorldGenerator;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -15,9 +15,9 @@ public final class Minesweeper extends JavaPlugin {
     public void onEnable() {
         Minesweeper.setPlugin(this);
 
-        World world = WorldGenerator.generate("world_minesweeper", Environment.NORMAL, WorldType.FLAT, true);
-        // PlatformLoader.savePlatform(world, -1, 0);
-        // PlatformLoader.loadPlatform(world, 1, 0);
+        WorldGenerator.generate("world_minesweeper", Environment.NORMAL, WorldType.FLAT, true);
+        this.getServer().getPluginManager().registerEvents(new MainListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WorldListener(), this);
     }
 
     @Override
