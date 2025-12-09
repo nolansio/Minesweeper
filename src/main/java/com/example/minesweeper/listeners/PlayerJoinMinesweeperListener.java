@@ -1,21 +1,23 @@
 package com.example.minesweeper.listeners;
 
 import com.example.minesweeper.Minesweeper;
+import com.example.minesweeper.utils.ChunkInfo;
 import com.example.minesweeper.utils.PlatformLoader;
 import com.example.minesweeper.utils.SpiralGenerator;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-public class WorldListener implements Listener {
+public class PlayerJoinMinesweeperListener implements Listener {
 
     private static final ArrayList<ChunkInfo> occupiedChunks = new ArrayList<>();
     private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
@@ -52,6 +54,10 @@ public class WorldListener implements Listener {
     }
 
     private void playerJoinMinesweeper(Player player) {
+        player.getInventory().clear();
+        player.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BRUSH));
+        player.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.REDSTONE_TORCH, 10));
+
         int[] chunkPosition = getFreeChunkPosition();
         if (chunkPosition == null) {
             player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
@@ -112,15 +118,8 @@ public class WorldListener implements Listener {
         return false;
     }
 
-    public static class ChunkInfo {
-        public int x, z;
-        public String playerName;
-
-        public ChunkInfo(int x, int z, String playerName) {
-            this.x = x;
-            this.z = z;
-            this.playerName = playerName;
-        }
+    public static ArrayList<ChunkInfo> getOccupiedChunks() {
+        return occupiedChunks;
     }
 
 }
