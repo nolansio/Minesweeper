@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -65,7 +66,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
             return;
         }
 
-        occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getName()));
+        occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getUniqueId().toString()));
         PlatformLoader.loadPlatform(minesweeperWorld, chunkPosition[0], chunkPosition[1]);
 
         int x = chunkPosition[0] * 16 + 8;
@@ -77,7 +78,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.playerName.equals(player.getName())) {
+            if (chunkInfo.UID.equals(player.getUniqueId().toString())) {
                 target = chunkInfo;
                 break;
             }
@@ -120,6 +121,30 @@ public class PlayerJoinMinesweeperListener implements Listener {
 
     public static ArrayList<ChunkInfo> getOccupiedChunks() {
         return occupiedChunks;
+    }
+
+    public static ChunkInfo getChunkInfoByName(String playerName) {
+        for (ChunkInfo chunkInfo : occupiedChunks) {
+            if (chunkInfo.UID.equals(playerName)) {
+                return chunkInfo;
+            }
+        }
+
+        return null;
+    }
+
+    public static boolean isChunkOf(LivingEntity entity) {
+        int chunkX = entity.getLocation().getBlockX() / 16;
+        int chunkZ = entity.getLocation().getBlockZ() / 16;
+        String uid = entity.getUniqueId().toString();
+
+        for (ChunkInfo chunkInfo : occupiedChunks) {
+            if (chunkInfo.UID.equals(uid)) {
+                return chunkInfo.x == chunkX && chunkInfo.z == chunkZ;
+            }
+        }
+
+        return false;
     }
 
 }

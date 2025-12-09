@@ -74,7 +74,7 @@ public class NPCJoinMinesweeperListener implements Listener {
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.playerName.equals(entity.getUniqueId().toString())) {
+            if (chunkInfo.UID.equals(entity.getUniqueId().toString())) {
                 target = chunkInfo;
                 break;
             }
