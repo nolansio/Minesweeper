@@ -10,50 +10,76 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 
 public class WorldListener implements Listener {
 
     private static final ArrayList<ChunkInfo> occupiedChunks = new ArrayList<>();
+    private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
-        World MinesweeperWorld = Minesweeper.getMinesweeperWorld();
 
-        // Quand le joueur rejoint le monde Minesweeper
-        if (player.getWorld() == MinesweeperWorld) {
-            int[] chunkPosition = getFreeChunkPosition();
-            if (chunkPosition == null) {
-                player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
-                player.sendMessage(Component.text("<red>There are no more places available, please try again later</red>"));
-                return;
-            }
-
-            occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getName()));
-            PlatformLoader.loadPlatform(MinesweeperWorld, chunkPosition[0], chunkPosition[1]);
-
-            int x = chunkPosition[0] * 16 + 8;
-            int z = chunkPosition[1] * 16 + 8;
-            player.teleport(new Location(MinesweeperWorld, x, 100, z));
+        if (player.getWorld() == minesweeperWorld) {
+            playerJoinMinesweeper(player);
         }
 
-        // Quand le joueur quitte le monde Minesweeper
-        if (event.getFrom() == MinesweeperWorld) {
-            ChunkInfo target = null;
+        if (event.getFrom() == minesweeperWorld) {
+            playerQuitMinesweeper(player);
+        }
+    }
 
-            for (ChunkInfo chunkInfo : occupiedChunks) {
-                if (chunkInfo.playerName.equals(player.getName())) {
-                    target = chunkInfo;
-                    break;
-                }
-            }
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
-            if (target != null) {
-                occupiedChunks.remove(target);
-                PlatformLoader.resetPlatform(MinesweeperWorld, target.x, target.z);
+        if (player.getWorld() == minesweeperWorld) {
+            playerJoinMinesweeper(player);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        if (player.getWorld() == minesweeperWorld) {
+            playerQuitMinesweeper(player);
+        }
+    }
+
+    private void playerJoinMinesweeper(Player player) {
+        int[] chunkPosition = getFreeChunkPosition();
+        if (chunkPosition == null) {
+            player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
+            player.sendMessage(Component.text("<red>There are no more places available, please try again later</red>"));
+            return;
+        }
+
+        occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getName()));
+        PlatformLoader.loadPlatform(minesweeperWorld, chunkPosition[0], chunkPosition[1]);
+
+        int x = chunkPosition[0] * 16 + 8;
+        int z = chunkPosition[1] * 16 + 8;
+        player.teleport(new Location(minesweeperWorld, x, 100, z));
+    }
+
+    private void playerQuitMinesweeper(Player player) {
+        ChunkInfo target = null;
+
+        for (ChunkInfo chunkInfo : occupiedChunks) {
+            if (chunkInfo.playerName.equals(player.getName())) {
+                target = chunkInfo;
+                break;
             }
+        }
+
+        if (target != null) {
+            occupiedChunks.remove(target);
+            PlatformLoader.resetPlatform(minesweeperWorld, target.x, target.z);
         }
     }
 
