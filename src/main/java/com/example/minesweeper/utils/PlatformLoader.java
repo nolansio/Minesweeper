@@ -7,6 +7,9 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlatformLoader {
 
@@ -58,6 +61,8 @@ public class PlatformLoader {
                 }
             }
         }
+
+        generateTNTs(world, chunkX, chunkZ);
     }
 
     public static void resetPlatform(World world, int chunkX, int chunkZ) {
@@ -72,4 +77,28 @@ public class PlatformLoader {
             }
         }
     }
+
+    private static void generateTNTs(World world, int chunkX, int chunkZ) {
+        List<Block> spots = new ArrayList<>();
+        int baseX = chunkX * 16;
+        int baseZ = chunkZ * 16;
+
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                Block block = world.getBlockAt(baseX + x, 98, baseZ + z);
+                if (block.getType() == Material.LIME_CONCRETE) {
+                    spots.add(block);
+                }
+            }
+        }
+
+        Collections.shuffle(spots);
+
+        int mines = Math.min(10, spots.size());
+        for (int i = 0; i < mines; i++) {
+            spots.get(i).setType(Material.TNT);
+        }
+    }
+
+
 }
