@@ -19,6 +19,7 @@ public final class Minesweeper extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new MainListener(), this);
         this.getServer().getPluginManager().registerEvents(new PlayerJoinMinesweeperListener(), this);
         this.getServer().getPluginManager().registerEvents(new NPCJoinMinesweeperListener(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerUseBrushListener(), this);
     }
 
     @Override

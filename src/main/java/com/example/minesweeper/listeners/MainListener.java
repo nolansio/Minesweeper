@@ -4,7 +4,9 @@ import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -35,6 +37,12 @@ public class MainListener implements Listener {
             return;
         }
 
+        if (event.getBlock().getType() == Material.REDSTONE_TORCH) {
+            if (PlayerJoinMinesweeperListener.isChunkOf(player)) {
+                return;
+            }
+        }
+
         event.setCancelled(true);
     }
 
@@ -47,10 +55,12 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (damager instanceof Player player) {
-            if (player.getGameMode() == GameMode.CREATIVE) {
-                return;
-            }
+        if (!(damager instanceof Player playerDamager)) {
+            return;
+        }
+
+        if (playerDamager.getGameMode() == GameMode.CREATIVE) {
+            return;
         }
 
         event.setCancelled(true);
@@ -101,11 +111,6 @@ public class MainListener implements Listener {
         }
 
         if (action.isLeftClick()) {
-            event.setCancelled(true);
-            return;
-        }
-
-        if (action == Action.LEFT_CLICK_BLOCK) {
             event.setCancelled(true);
             return;
         }
