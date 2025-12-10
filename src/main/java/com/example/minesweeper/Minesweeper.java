@@ -5,6 +5,7 @@ import com.example.minesweeper.utils.WorldGenerator;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Minesweeper extends JavaPlugin {
@@ -24,7 +25,12 @@ public final class Minesweeper extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Code ici
+        World world = getMinesweeperWorld();
+        world.getEntities().forEach(entity -> {
+            if (!(entity instanceof Player)) {
+                entity.remove();
+            }
+        });
     }
 
     public static void setPlugin(Minesweeper plugin) {

@@ -27,16 +27,7 @@ public class PlayerBlockBrushListener implements Listener {
         }
 
         event.setCancelled(true);
-
-        boolean isChunkOfPlayer = ChunkInfo.isChunkOf(player);
-
-        if (isChunkOfPlayer) {
-            player.sendMessage("Ton chunk");
-        } else {
-            player.sendMessage("Pas ton chunk");
-        }
-
-        if (!player.isOp() && !isChunkOfPlayer) {
+        if (!player.isOp() && !ChunkInfo.isChunkOf(player)) {
             return;
         }
 
