@@ -4,22 +4,22 @@ import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
 import com.example.minesweeper.utils.PlatformLoader;
 import com.example.minesweeper.utils.SpiralGenerator;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlayerJoinMinesweeperListener implements Listener {
 
-    private static final ArrayList<ChunkInfo> occupiedChunks = new ArrayList<>();
+    private static final List<ChunkInfo> occupiedChunks = Collections.synchronizedList(ChunkInfo.getOccupiedChunks());
     private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
 
     @EventHandler
@@ -58,10 +58,10 @@ public class PlayerJoinMinesweeperListener implements Listener {
         player.getInventory().setItem(0, new ItemStack(Material.BRUSH));
         player.getInventory().setItem(1, new ItemStack(Material.REDSTONE_TORCH, 10));
 
-        int[] chunkPosition = getFreeChunkPosition();
+        int[] chunkPosition = ChunkInfo.getFreeChunkPosition();
         if (chunkPosition == null) {
             player.teleport(Minesweeper.getMainWorld().getSpawnLocation());
-            player.sendMessage(Component.text("<red>There are no more places available, please try again later</red>"));
+            player.sendMessage("There are no more places available, please try again later");
             return;
         }
 
@@ -77,7 +77,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.UID.equals(player.getUniqueId().toString())) {
+            if (chunkInfo.uid.equals(player.getUniqueId().toString())) {
                 target = chunkInfo;
                 break;
             }
@@ -87,63 +87,6 @@ public class PlayerJoinMinesweeperListener implements Listener {
             occupiedChunks.remove(target);
             PlatformLoader.resetPlatform(minesweeperWorld, target.x, target.z);
         }
-    }
-
-    private int[] getFreeChunkPosition() {
-        SpiralGenerator spiral = new SpiralGenerator();
-        int[] chunkPosition = null;
-
-        for (int i=0; i < 10000; i++) {
-            if (i == 0) {
-                chunkPosition = new int[] {0, 0};
-            } else {
-                chunkPosition = spiral.next();
-            }
-
-            if (!isOccupied(chunkPosition)) {
-                break;
-            }
-        }
-
-        return chunkPosition;
-    }
-
-    private boolean isOccupied(int[] position) {
-        for (ChunkInfo occupiedChunk : occupiedChunks) {
-            if (occupiedChunk.x == position[0] && occupiedChunk.z == position[1]) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static ArrayList<ChunkInfo> getOccupiedChunks() {
-        return occupiedChunks;
-    }
-
-    public static ChunkInfo getChunkInfoByUid(String uid) {
-        for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.UID.equals(uid)) {
-                return chunkInfo;
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean isChunkOf(LivingEntity entity) {
-        int chunkX = entity.getLocation().getBlockX() / 16;
-        int chunkZ = entity.getLocation().getBlockZ() / 16;
-        String uid = entity.getUniqueId().toString();
-
-        for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.UID.equals(uid)) {
-                return chunkInfo.x == chunkX && chunkInfo.z == chunkZ;
-            }
-        }
-
-        return false;
     }
 
 }

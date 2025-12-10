@@ -3,7 +3,6 @@ package com.example.minesweeper.listeners;
 import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
 import com.example.minesweeper.utils.PlatformLoader;
-import com.example.minesweeper.utils.SpiralGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class NPCJoinMinesweeperListener implements Listener {
 
-    private static final List<ChunkInfo> occupiedChunks = Collections.synchronizedList(PlayerJoinMinesweeperListener.getOccupiedChunks());
+    private static final List<ChunkInfo> occupiedChunks = Collections.synchronizedList(ChunkInfo.getOccupiedChunks());
     private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
 
     @EventHandler
@@ -52,7 +51,7 @@ public class NPCJoinMinesweeperListener implements Listener {
         entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BRUSH));
         // entity.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.REDSTONE_TORCH, 10));
 
-        int[] chunkPosition = getFreeChunkPosition();
+        int[] chunkPosition = ChunkInfo.getFreeChunkPosition();
         if (chunkPosition == null) {
             entity.remove();
             return;
@@ -74,7 +73,7 @@ public class NPCJoinMinesweeperListener implements Listener {
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.UID.equals(entity.getUniqueId().toString())) {
+            if (chunkInfo.uid.equals(entity.getUniqueId().toString())) {
                 target = chunkInfo;
                 break;
             }
@@ -84,35 +83,6 @@ public class NPCJoinMinesweeperListener implements Listener {
             occupiedChunks.remove(target);
             PlatformLoader.resetPlatform(minesweeperWorld, target.x, target.z);
         }
-    }
-
-    private int[] getFreeChunkPosition() {
-        SpiralGenerator spiral = new SpiralGenerator();
-        int[] chunkPosition = null;
-
-        for (int i=0; i < 10000; i++) {
-            if (i == 0) {
-                chunkPosition = new int[] {0, 0};
-            } else {
-                chunkPosition = spiral.next();
-            }
-
-            if (!isOccupied(chunkPosition)) {
-                break;
-            }
-        }
-
-        return chunkPosition;
-    }
-
-    private boolean isOccupied(int[] position) {
-        for (ChunkInfo occupiedChunk : occupiedChunks) {
-            if (occupiedChunk.x == position[0] && occupiedChunk.z == position[1]) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }

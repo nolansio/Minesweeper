@@ -31,7 +31,7 @@ public class MainListener implements Listener {
         }
 
         if (event.getBlock().getType() == Material.REDSTONE_TORCH) {
-            if (PlayerJoinMinesweeperListener.isChunkOf(player)) {
+            if (ChunkInfo.isChunkOf(player)) {
                 return;
             }
         }
@@ -75,7 +75,7 @@ public class MainListener implements Listener {
         if (cause == DamageCause.VOID) {
             event.setCancelled(true);
 
-            ChunkInfo chunkInfo = PlayerJoinMinesweeperListener.getChunkInfoByUid(entity.getUniqueId().toString());
+            ChunkInfo chunkInfo = ChunkInfo.getChunk(entity.getUniqueId().toString());
 
             if (chunkInfo == null) {
                 entity.remove();
@@ -101,7 +101,7 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (!PlayerJoinMinesweeperListener.isChunkOf(player)) {
+        if (!ChunkInfo.isChunkOf(player)) {
             event.setCancelled(true);
         }
     }

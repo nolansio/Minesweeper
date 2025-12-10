@@ -1,6 +1,8 @@
 package com.example.minesweeper.listeners;
 
 import com.example.minesweeper.Minesweeper;
+import com.example.minesweeper.utils.ChunkInfo;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -10,50 +12,34 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.block.BlockBrushEvent;
 
-public class PlayerUseBrushListener implements Listener {
+public class PlayerBlockBrushListener implements Listener {
 
     private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
 
     @EventHandler
-    public void onPlayerUseBrush(PlayerInteractEvent event) {
+    public void onBlockBrush(BlockBrushEvent event) {
         Player player = event.getPlayer();
-        Action action = event.getAction();
+        Block sand = event.getBlock();
 
         if (player.getWorld() != minesweeperWorld) {
             return;
         }
 
-        if (!PlayerJoinMinesweeperListener.isChunkOf(player)) {
-            return;
+        if (player.getGameMode() == GameMode.SURVIVAL) {
+            if (ChunkInfo.isChunkOf(player)) {
+                event.setCancelled(true);
+            }
         }
 
-        if (event.getMaterial() != Material.BRUSH) {
-            return;
-        }
-
-        if (!action.isRightClick()) {
-            return;
-        }
-
-        Block clicked = event.getClickedBlock();
-        if (clicked == null) {
-            return;
-        }
-
-        if (clicked.getType() != Material.SUSPICIOUS_SAND) {
-            return;
-        }
-
-        Block below = clicked.getRelative(BlockFace.DOWN);
+        Block below = sand.getRelative(BlockFace.DOWN);
         if (below.getType() == Material.TNT) {
             below.setType(Material.SAND);
-            clicked.setType(Material.AIR);
+            sand.setType(Material.AIR);
 
             minesweeperWorld.playSound(player.getLocation(), Sound.ENTITY_TNT_PRIMED, 1f, 1f);
-            minesweeperWorld.spawn(clicked.getLocation().add(0.5, 0, 0.5), TNTPrimed.class);
+            minesweeperWorld.spawn(sand.getLocation().add(0.5, 0, 0.5), TNTPrimed.class);
             return;
         }
 
@@ -81,7 +67,8 @@ public class PlayerUseBrushListener implements Listener {
         };
 
         int i = Math.min(tntCount, blocks.length - 1);
-        clicked.setType(blocks[i]);
+        sand.setType(blocks[i]);
+        System.out.println(i);
     }
 
 }
