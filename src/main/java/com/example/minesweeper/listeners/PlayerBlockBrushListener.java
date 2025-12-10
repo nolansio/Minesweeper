@@ -47,7 +47,7 @@ public class PlayerBlockBrushListener implements Listener {
 
             minesweeperWorld.playSound(player.getLocation(), Sound.ENTITY_TNT_PRIMED, 1f, 1f);
             TNTPrimed tnt = minesweeperWorld.spawn(sand.getLocation().add(0.5, 0, 0.5), TNTPrimed.class);
-            tnt.setFuseTicks(40);
+            tnt.setFuseTicks(30);
             return;
         }
 
