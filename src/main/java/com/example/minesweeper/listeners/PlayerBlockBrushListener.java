@@ -76,10 +76,6 @@ public class PlayerBlockBrushListener implements Listener {
         if (tntCount == 0) {
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                    if ((x == 0 && z == 0) || (x != 0 && z != 0)) {
-                        continue;
-                    }
-
                     Block nextTo = sandstone.getRelative(x, 0, z);
                     Block upTo = nextTo.getRelative(BlockFace.UP);
 
