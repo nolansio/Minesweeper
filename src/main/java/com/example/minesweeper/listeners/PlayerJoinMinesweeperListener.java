@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -56,8 +55,8 @@ public class PlayerJoinMinesweeperListener implements Listener {
 
     private void playerJoinMinesweeper(Player player) {
         player.getInventory().clear();
-        player.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BRUSH));
-        player.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.REDSTONE_TORCH, 10));
+        player.getInventory().setItem(0, new ItemStack(Material.BRUSH));
+        player.getInventory().setItem(1, new ItemStack(Material.REDSTONE_TORCH, 10));
 
         int[] chunkPosition = getFreeChunkPosition();
         if (chunkPosition == null) {
@@ -123,9 +122,9 @@ public class PlayerJoinMinesweeperListener implements Listener {
         return occupiedChunks;
     }
 
-    public static ChunkInfo getChunkInfoByName(String playerName) {
+    public static ChunkInfo getChunkInfoByUid(String uid) {
         for (ChunkInfo chunkInfo : occupiedChunks) {
-            if (chunkInfo.UID.equals(playerName)) {
+            if (chunkInfo.UID.equals(uid)) {
                 return chunkInfo;
             }
         }

@@ -50,7 +50,7 @@ public class NPCJoinMinesweeperListener implements Listener {
 
     private void entityJoinMinesweeper(Mannequin entity) {
         entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BRUSH));
-        entity.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.REDSTONE_TORCH, 10));
+        // entity.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.REDSTONE_TORCH, 10));
 
         int[] chunkPosition = getFreeChunkPosition();
         if (chunkPosition == null) {
