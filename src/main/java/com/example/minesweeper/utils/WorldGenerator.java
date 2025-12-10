@@ -18,6 +18,7 @@ public class WorldGenerator extends ChunkGenerator {
 
         if (isEmptyWorld) {
             worldCreator.generatorSettings("{\"layers\":[{\"height\":1,\"block\":\"minecraft:air\"}],\"biome\":\"minecraft:plains\"}");
+            worldCreator.generateStructures(false);
         }
 
         World world = worldCreator.createWorld();
