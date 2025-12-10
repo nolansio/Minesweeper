@@ -2,7 +2,6 @@ package com.example.minesweeper.listeners;
 
 import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;

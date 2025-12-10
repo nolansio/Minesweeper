@@ -26,7 +26,7 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (player.getGameMode() == GameMode.CREATIVE) {
+        if (player.isOp()) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (playerDamager.getGameMode() == GameMode.CREATIVE) {
+        if (playerDamager.isOp()) {
             return;
         }
 
@@ -97,7 +97,7 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (player.getGameMode() == GameMode.CREATIVE) {
+        if (player.isOp()) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class MainListener implements Listener {
             return;
         }
 
-        if (player.getGameMode() == GameMode.CREATIVE) {
+        if (player.isOp()) {
             return;
         }
 
