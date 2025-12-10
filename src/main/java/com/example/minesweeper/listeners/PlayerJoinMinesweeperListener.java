@@ -56,7 +56,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
     private void playerJoinMinesweeper(Player player) {
         player.getInventory().clear();
         player.getInventory().setItem(0, new ItemStack(Material.BRUSH));
-        player.getInventory().setItem(1, new ItemStack(Material.REDSTONE_TORCH, 10));
+        player.getInventory().setItem(1, new ItemStack(Material.REDSTONE_TORCH, 15));
 
         int[] chunkPosition = ChunkInfo.getFreeChunkPosition();
         if (chunkPosition == null) {
