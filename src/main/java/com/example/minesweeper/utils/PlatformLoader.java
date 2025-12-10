@@ -77,6 +77,15 @@ public class PlatformLoader {
             return;
         }
 
+        int baseX = chunkX * chunkSize;
+        int baseZ = chunkZ * chunkSize;
+
+        for (int x = 0; x < chunkSize; x++) {
+            for (int z = 0; z < chunkSize; z++) {
+                world.getBlockAt(baseX + x, 101, baseZ + z).setType(Material.AIR);
+            }
+        }
+
         for (String xKey : yaml.getKeys(false)) {
             for (String yKey : yaml.getConfigurationSection(xKey).getKeys(false)) {
                 for (String zKey : yaml.getConfigurationSection(xKey + "." + yKey).getKeys(false)) {
