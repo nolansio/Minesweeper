@@ -16,6 +16,18 @@ import org.bukkit.event.block.BlockBrushEvent;
 public class PlayerBlockBrushListener implements Listener {
 
     private final World minesweeperWorld = Minesweeper.getMinesweeperWorld();
+    private final Material[] terracottaBlocks = {
+            Material.SAND,
+            Material.BLUE_GLAZED_TERRACOTTA,
+            Material.GREEN_GLAZED_TERRACOTTA,
+            Material.RED_GLAZED_TERRACOTTA,
+            Material.PURPLE_GLAZED_TERRACOTTA,
+            Material.YELLOW_GLAZED_TERRACOTTA,
+            Material.LIGHT_BLUE_GLAZED_TERRACOTTA,
+            Material.CYAN_GLAZED_TERRACOTTA,
+            Material.BLACK_GLAZED_TERRACOTTA,
+            Material.GRAY_GLAZED_TERRACOTTA
+    };
 
     @EventHandler
     public void onBlockBrush(BlockBrushEvent event) {
@@ -42,30 +54,41 @@ public class PlayerBlockBrushListener implements Listener {
             return;
         }
 
+        recursivity(sand);
+    }
+
+    private void recursivity(Block sand) {
+        Block sandstone = sand.getRelative(BlockFace.DOWN);
+
         int tntCount = 0;
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
-                Block block = sandstone.getRelative(x, 0, z);
-                if (block.getType() == Material.TNT) {
+                Block nextTo = sandstone.getRelative(x, 0, z);
+
+                if (nextTo.getType() == Material.TNT) {
                     tntCount++;
                 }
             }
         }
 
-        Material[] blocks = {
-                Material.SAND,
-                Material.BLUE_GLAZED_TERRACOTTA,
-                Material.GREEN_GLAZED_TERRACOTTA,
-                Material.RED_GLAZED_TERRACOTTA,
-                Material.PURPLE_GLAZED_TERRACOTTA,
-                Material.YELLOW_GLAZED_TERRACOTTA,
-                Material.LIGHT_BLUE_GLAZED_TERRACOTTA,
-                Material.CYAN_GLAZED_TERRACOTTA,
-                Material.BLACK_GLAZED_TERRACOTTA,
-                Material.GRAY_GLAZED_TERRACOTTA
-        };
+        sand.setType(terracottaBlocks[tntCount]);
 
-        sand.setType(blocks[tntCount]);
+        if (tntCount == 0) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    if ((x == 0 && z == 0) || (x != 0 && z != 0)) {
+                        continue;
+                    }
+
+                    Block nextTo = sandstone.getRelative(x, 0, z);
+                    Block upTo = nextTo.getRelative(BlockFace.UP);
+
+                    if (upTo.getType() == Material.SUSPICIOUS_SAND) {
+                        recursivity(upTo);
+                    }
+                }
+            }
+        }
     }
 
 }

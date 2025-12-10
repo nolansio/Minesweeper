@@ -115,7 +115,7 @@ public class PlatformLoader {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 Block block = world.getBlockAt(baseX + x, 98, baseZ + z);
-                if (block.getType() == Material.LIME_CONCRETE) {
+                if (block.getType() == Material.SANDSTONE) {
                     spots.add(block);
                 }
             }
@@ -123,8 +123,7 @@ public class PlatformLoader {
 
         Collections.shuffle(spots);
 
-        int mines = Math.min(count, spots.size());
-        for (int i = 0; i < mines; i++) {
+        for (int i = 0; i < count; i++) {
             spots.get(i).setType(Material.TNT);
         }
     }
