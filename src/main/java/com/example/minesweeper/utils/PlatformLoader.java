@@ -91,7 +91,7 @@ public class PlatformLoader {
             }
         }
 
-        generateTNTs(world, chunkX, chunkZ);
+        generateTNTs(world, chunkX, chunkZ, 15);
     }
 
     public static void resetPlatform(World world, int chunkX, int chunkZ) {
@@ -107,7 +107,7 @@ public class PlatformLoader {
         }
     }
 
-    private static void generateTNTs(World world, int chunkX, int chunkZ) {
+    private static void generateTNTs(World world, int chunkX, int chunkZ, int count) {
         List<Block> spots = new ArrayList<>();
         int baseX = chunkX * 16;
         int baseZ = chunkZ * 16;
@@ -123,11 +123,10 @@ public class PlatformLoader {
 
         Collections.shuffle(spots);
 
-        int mines = Math.min(10, spots.size());
+        int mines = Math.min(count, spots.size());
         for (int i = 0; i < mines; i++) {
             spots.get(i).setType(Material.TNT);
         }
     }
-
 
 }
