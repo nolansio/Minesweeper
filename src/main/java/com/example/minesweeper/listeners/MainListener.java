@@ -2,24 +2,17 @@ package com.example.minesweeper.listeners;
 
 import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.BlockType;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 public class MainListener implements Listener {
@@ -94,29 +87,6 @@ public class MainListener implements Listener {
 
             entity.setVelocity(new Vector(0, 0, 0));
             entity.teleport(new Location(minesweeperWorld, x, 100, z));
-        }
-    }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        Action action = event.getAction();
-
-        if (player.getWorld() != minesweeperWorld) {
-            return;
-        }
-
-        if (player.getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
-
-        if (action.isLeftClick()) {
-            event.setCancelled(true);
-            return;
-        }
-
-        if (!PlayerJoinMinesweeperListener.isChunkOf(player)) {
-            event.setCancelled(true);
         }
     }
 
