@@ -3,6 +3,7 @@ package com.example.minesweeper.listeners;
 import com.example.minesweeper.Minesweeper;
 import com.example.minesweeper.utils.ChunkInfo;
 import com.example.minesweeper.utils.PlatformLoader;
+import com.example.minesweeper.utils.ResourcePackLoader;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -62,6 +63,8 @@ public class PlayerJoinMinesweeperListener implements Listener {
     }
 
     private void playerJoinMinesweeper(Player player) {
+        ResourcePackLoader.load(player);
+
         player.getInventory().clear();
         player.getInventory().setItem(0, new ItemStack(Material.BRUSH));
         player.getInventory().setItem(1, new ItemStack(Material.REDSTONE_TORCH, 15));
@@ -82,6 +85,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
     }
 
     private void playerQuitMinesweeper(Player player) {
+        ResourcePackLoader.unload(player);
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {
