@@ -63,7 +63,7 @@ public class PlatformLoader {
 
         if (!file.exists()) {
             try {
-                URI uri = new URI("http://localhost/minecraft/ressources/platform.yml");
+                URI uri = new URI("http://localhost/minesweeper/resources/platform.yml");
                 try (InputStream in = uri.toURL().openStream()) {
                     Files.copy(in, file.toPath());
                 }
