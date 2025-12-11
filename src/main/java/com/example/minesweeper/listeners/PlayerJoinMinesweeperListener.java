@@ -74,7 +74,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
         }
 
         occupiedChunks.add(new ChunkInfo(chunkPosition[0], chunkPosition[1], player.getUniqueId().toString()));
-        PlatformLoader.loadPlatform(minesweeperWorld, chunkPosition[0], chunkPosition[1]);
+        PlatformLoader.load(minesweeperWorld, chunkPosition[0], chunkPosition[1]);
 
         int x = chunkPosition[0] * 16 + 8;
         int z = chunkPosition[1] * 16 + 8;
@@ -93,7 +93,7 @@ public class PlayerJoinMinesweeperListener implements Listener {
 
         if (target != null) {
             occupiedChunks.remove(target);
-            PlatformLoader.resetPlatform(minesweeperWorld, target.x, target.z);
+            PlatformLoader.unload(minesweeperWorld, target.x, target.z);
         }
     }
 

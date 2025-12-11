@@ -1,5 +1,6 @@
 package com.example.minesweeper.utils;
 
+import com.example.minesweeper.Minesweeper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -48,7 +49,7 @@ public class PlatformLoader {
         }
     }
 
-    public static void loadPlatform(World world, int chunkX, int chunkZ) {
+    public static void load(World world, int chunkX, int chunkZ) {
         YamlConfiguration yaml = new YamlConfiguration();
 
         File folder = new File("plugins/minesweeper/resources");
@@ -60,7 +61,7 @@ public class PlatformLoader {
 
         if (!file.exists()) {
             try {
-                URI uri = new URI("http://localhost/minesweeper/resources/platform.yml");
+                URI uri = new URI("https://nolansio.github.io/Minesweeper_Resources/" + Minesweeper.getVersion() + "/platform.yml");
                 try (InputStream in = uri.toURL().openStream()) {
                     Files.copy(in, file.toPath());
                 }
@@ -100,10 +101,10 @@ public class PlatformLoader {
             }
         }
 
-        generateTNTs(world, chunkX, chunkZ, 15);
+        generateTNT(world, chunkX, chunkZ, 15);
     }
 
-    public static void resetPlatform(World world, int chunkX, int chunkZ) {
+    public static void unload(World world, int chunkX, int chunkZ) {
         int baseX = chunkX * chunkSize;
         int baseZ = chunkZ * chunkSize;
 
@@ -116,7 +117,7 @@ public class PlatformLoader {
         }
     }
 
-    private static void generateTNTs(World world, int chunkX, int chunkZ, int count) {
+    private static void generateTNT(World world, int chunkX, int chunkZ, int count) {
         List<Block> spots = new ArrayList<>();
         int baseX = chunkX * 16;
         int baseZ = chunkZ * 16;
