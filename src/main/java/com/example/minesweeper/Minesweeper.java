@@ -49,4 +49,12 @@ public final class Minesweeper extends JavaPlugin {
         return plugin.getServer().getWorld("world_minesweeper");
     }
 
+    public static String getVersion() {
+        return plugin.getServer().getBukkitVersion().split("-")[0];
+    }
+
+    public static String getServerType() {
+        return plugin.getServer().getName();
+    }
+
 }
