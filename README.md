@@ -42,11 +42,11 @@ Each player or NPC receives their own isolated game platform with a randomly gen
 1. Download the plugin `.jar` file corresponding to your version
 2. Place it in your Minecraft server's `plugins/` folder
 3. Open the `.jar` archive and extract:
-    - `minesweeper_pack.zip` (resource pack)
+    - `minesweeper_pack/` (resource pack folder)
     - `platform.yml` (configuration file)
 4. Create the `plugins/minesweeper/resources/` folder (if it doesn't exist)
 5. Place `platform.yml` in `plugins/minesweeper/resources/`
-6. Install the `minesweeper_pack.zip` resource pack on your server
+6. Zip the extracted `minesweeper_pack/` folder into `minesweeper_pack.zip` and install it on your server
 7. Restart the server
 8. The `world_minesweeper` world will be automatically created on startup
 
