@@ -1,13 +1,10 @@
 package com.example.minesweeper.utils;
 
-import com.example.minesweeper.Minesweeper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.TNTPrimed;
 
 import java.io.File;
 import java.io.InputStream;

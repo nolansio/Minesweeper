@@ -11,10 +11,10 @@ public class SpiralGenerator {
     private int changes = 0;
 
     private final int[][] dirs = {
-            {1, 0},   // Est
-            {0, 1},   // Sud
-            {-1, 0},  // Ouest
-            {0, -1}   // Nord
+            {1, 0},
+            {0, 1},
+            {-1, 0},
+            {0, -1}
     };
 
     public int[] next() {

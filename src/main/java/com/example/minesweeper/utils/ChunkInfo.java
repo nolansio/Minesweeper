@@ -8,7 +8,8 @@ public class ChunkInfo {
 
     private static final ArrayList<ChunkInfo> occupiedChunks = new ArrayList<>();
 
-    public int x, z;
+    public int x;
+    public int z;
     public String uid;
 
     public ChunkInfo(int x, int z, String uid) {
@@ -25,7 +26,7 @@ public class ChunkInfo {
         SpiralGenerator spiral = new SpiralGenerator();
         int[] chunkPosition = null;
 
-        for (int i=0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             if (i == 0) {
                 chunkPosition = new int[] {0, 0};
             } else {
@@ -41,8 +42,8 @@ public class ChunkInfo {
     }
 
     public static boolean isOccupied(int[] position) {
-        for (ChunkInfo occupiedChunk : occupiedChunks) {
-            if (occupiedChunk.x == position[0] && occupiedChunk.z == position[1]) {
+        for (ChunkInfo chunkInfo : occupiedChunks) {
+            if (chunkInfo.x == position[0] && chunkInfo.z == position[1]) {
                 return true;
             }
         }
