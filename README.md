@@ -39,23 +39,19 @@ Each player or NPC receives their own isolated game platform with a randomly gen
 
 ## 🔧 Installation
 
-1. Download the plugin `.jar` file corresponding to your version
-2. Place it in your Minecraft server's `plugins/` folder
-3. Open the `.jar` archive and extract:
-    - `minesweeper_pack/` (resource pack folder)
-    - `platform.yml` (configuration file)
-4. Create the `plugins/minesweeper/resources/` folder (if it doesn't exist)
-5. Place `platform.yml` in `plugins/minesweeper/resources/`
-6. Zip the extracted `minesweeper_pack/` folder into `minesweeper_pack.zip` and install it on your server
-7. Restart the server
-8. The `world_minesweeper` world will be automatically created on startup
+1. Download the plugin `.jar` file for your server version.
+2. Place it in the `plugins/` folder of your Minecraft server.
+3. Restart the server — that’s it!
 
-> **Important**: The resource pack is essential for correct number display!
+> **Important**:
+> - The empty `world_minesweeper` world is automatically created when the server starts.
+> - The **resource pack** is automatically loaded for players when they join the `world_minesweeper` world, fetched from an external link.
+> - The **platform configuration** is automatically downloaded to the `plugins/minesweeper/resources/` folder from an external link.
 
 ## 🎨 Block System
 
 The plugin uses glazed terracotta blocks to represent the number of adjacent mines.
-A **resource pack** is provided with the plugin to retexture these blocks with classic minesweeper numbers:
+A **resource pack** is provided to retexture these blocks with classic minesweeper numbers:
 
 | Number of Mines | Block                        |
 |-----------------|------------------------------|
@@ -95,35 +91,6 @@ Mannequins (NPCs) can join the world to test the plugin. They automatically rece
 - A brush
 - Their own game platform
 - The same restrictions as players
-
-## 👨‍💻 Plugin Architecture
-
-The plugin is structured in a modular way:
-
-```
-com.example.minesweeper/
-├── Minesweeper.java              # Main class
-├── listeners/                     # Event handlers
-│   ├── MainListener.java         # General protections
-│   ├── PlayerJoinMinesweeperListener.java
-│   ├── NPCJoinMinesweeperListener.java
-│   └── PlayerBlockBrushListener.java  # Minesweeper logic
-└── utils/                         # Utility classes
-    ├── ChunkInfo.java            # Chunk management
-    ├── PlatformLoader.java       # Platform loading
-    ├── WorldGenerator.java       # World generation
-    └── SpiralGenerator.java      # Spiral allocation
-```
-
-### Key Components
-
-- **MainListener**: Manages all protections (breaking/placing blocks, damage, items)
-- **PlayerJoinMinesweeperListener**: Assigns platforms to entering/leaving players
-- **NPCJoinMinesweeperListener**: Manages mannequin lifecycle
-- **PlayerBlockBrushListener**: Implements minesweeper logic (reveal, recursion, explosion)
-- **ChunkInfo**: Tracks chunk occupancy (who occupies which chunk)
-- **PlatformLoader**: Loads and resets game platforms
-- **SpiralGenerator**: Assigns chunks in a spiral pattern to optimize space
 
 ## 🔍 Technical Details
 
