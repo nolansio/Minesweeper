@@ -1,5 +1,5 @@
 name: minesweeper
-version: '1.21.7'
+version: '1.21.6'
 main: com.example.minesweeper.Minesweeper
 api-version: '1.21'
 authors: [ narsac ]
