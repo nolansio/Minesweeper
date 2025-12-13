@@ -26,28 +26,28 @@ public class NPCJoinMinesweeperListener implements Listener {
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() != EntityType.MANNEQUIN) {
+        if (entity.getType() != EntityType.VILLAGER) {
             return;
         }
 
         if (entity.getWorld() == minesweeperWorld) {
-            entityJoinMinesweeper((Mannequin) entity);
+            entityJoinMinesweeper((Villager) entity);
         }
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.getType() != EntityType.MANNEQUIN) {
+        if (entity.getType() != EntityType.VILLAGER) {
             return;
         }
 
         if (entity.getWorld() == minesweeperWorld) {
-            entityQuitMinesweeper((Mannequin) entity);
+            entityQuitMinesweeper((Villager) entity);
         }
     }
 
-    private void entityJoinMinesweeper(Mannequin entity) {
+    private void entityJoinMinesweeper(Villager entity) {
         entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BRUSH));
 
         int[] chunkPosition = ChunkInfo.getFreeChunkPosition();
@@ -68,7 +68,7 @@ public class NPCJoinMinesweeperListener implements Listener {
         }, 1L);
     }
 
-    private void entityQuitMinesweeper(Mannequin entity) {
+    private void entityQuitMinesweeper(Villager entity) {
         ChunkInfo target = null;
 
         for (ChunkInfo chunkInfo : occupiedChunks) {

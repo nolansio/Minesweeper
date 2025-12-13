@@ -15,7 +15,7 @@ Each player or NPC receives their own isolated game platform with a randomly gen
     - Use the **brush** to reveal tiles
     - Glazed terracotta blocks are retextured via a resource pack to display minesweeper numbers
     - Uncover a TNT and the entire platform explodes!
-- **Mannequin Support**: Fake players (mannequins) can be spawned for testing purposes
+- **Villager Support**: Fake players (villagers) can be spawned for testing purposes
 - **Automatic Management**: Platforms are created on arrival and cleaned up on departure
 - **Complete Protection**: Players can only interact with their own chunk
 
@@ -86,8 +86,8 @@ When you reveal a tile with no adjacent mines (sand),
 all neighboring tiles are automatically revealed recursively,
 just like in classic minesweeper!
 
-### Mannequin Management
-Mannequins (NPCs) can join the world to test the plugin. They automatically receive:
+### Villager Management
+Villagers can join the world to test the plugin. They automatically receive:
 - A brush
 - Their own game platform
 - The same restrictions as players
