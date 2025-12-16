@@ -19,6 +19,7 @@ public final class Minesweeper extends JavaPlugin {
         WorldGenerator.generate("world_minesweeper", Environment.NORMAL, WorldType.FLAT, true);
         this.getServer().getPluginManager().registerEvents(new MainListener(), this);
         this.getServer().getPluginManager().registerEvents(new PlayerJoinMinesweeperListener(), this);
+        this.getServer().getPluginManager().registerEvents(new VillagerJoinMinesweeperListener(), this);
         this.getServer().getPluginManager().registerEvents(new NPCJoinMinesweeperListener(), this);
         this.getServer().getPluginManager().registerEvents(new PlayerBlockBrushListener(), this);
     }
